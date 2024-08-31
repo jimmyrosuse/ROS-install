@@ -1,0 +1,42 @@
+1. 確保系統已更新
+在升級之前，首先要確保你的 Ubuntu 20.04 系統是最新的。打開終端並運行以下命令來更新系統軟體包：
+
+bash
+複製程式碼
+sudo apt update
+sudo apt upgrade
+sudo apt dist-upgrade
+2. 移除不必要的軟體包
+清理舊的、不再使用的軟體包：
+
+bash
+複製程式碼
+sudo apt autoremove
+3. 啟用升級到新版本
+你需要讓系統知道可以升級到下一個 LTS 版本。運行以下命令來安裝升級管理工具：
+
+bash
+複製程式碼
+sudo apt install update-manager-core
+確保 /etc/update-manager/release-upgrades 文件中的 Prompt 設置為 lts，這樣它只會升級到長期支持版本（LTS）：
+
+bash
+複製程式碼
+sudo nano /etc/update-manager/release-upgrades
+將 Prompt=lts 確認設置好，然後保存退出。
+
+4. 開始升級
+運行以下命令開始升級：
+
+bash
+複製程式碼
+sudo do-release-upgrade
+按照屏幕上的提示操作，並在提示時選擇「Y」進行升級。系統會自動下載並安裝所需的更新。這個過程可能會花一些時間，具體取決於網速和電腦配置。
+
+5. 重啟系統
+升級完成後，重啟系統以應用更改：
+
+bash
+複製程式碼
+sudo reboot
+升級完成後，你應該會運行在 Ubuntu 22.04 LTS 上。
