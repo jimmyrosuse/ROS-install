@@ -1,0 +1,109 @@
+步驟 1：設置 Ubuntu 軟體源
+首先，確保你的 Ubuntu 軟體包和所有工具都是最新的。
+
+bash
+複製程式碼
+sudo apt update
+sudo apt upgrade
+步驟 2：設置 locale
+確保系統的語言設置為 UTF-8。這對於一些 ROS 2 工具的運行非常重要。
+
+bash
+複製程式碼
+sudo locale-gen en_US en_US.UTF-8
+sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+確認 locale 設置正確：
+
+bash
+複製程式碼
+locale
+應該顯示 LANG=en_US.UTF-8。
+
+步驟 3：設置 ROS 2 軟體源
+添加 ROS 2 軟體源到你的系統，以便能夠從官方源中安裝 ROS 2：
+
+添加軟體來源的 GPG 密鑰：
+bash
+複製程式碼
+sudo apt install curl -y
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo tee /usr/share/keyrings/ros-archive-keyring.gpg > /dev/null
+將 ROS 2 軟體源添加到 apt：
+對於 Ubuntu 22.04：
+
+bash
+複製程式碼
+echo "deb [signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+步驟 4：安裝 ROS 2 的二進制包
+更新 apt：
+bash
+複製程式碼
+sudo apt update
+安裝 ROS 2 Humble，有三個選項，取決於你需要的功能：
+基礎包（不含桌面環境）：
+
+如果你只需要ROS 2的基本工具而不需要 GUI 或仿真環境：
+
+bash
+複製程式碼
+sudo apt install ros-humble-ros-base
+完整的桌面安裝（包括 Rviz、Gazebo、仿真工具等）：
+
+這是最常見的選項，適合大部分開發者：
+
+bash
+複製程式碼
+sudo apt install ros-humble-desktop
+開發工具和完整工具包：
+
+包含更多的開發和調試工具：
+
+bash
+複製程式碼
+sudo apt install ros-humble-desktop-full
+步驟 5：設置環境變量
+每次打開新終端時，你都需要源（source）ROS 2 的設置。為了自動加載這些設置，可以將以下指令加入到你的 ~/.bashrc 文件中：
+
+bash
+複製程式碼
+echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+如果你使用 zsh，請將指令中的 bash 替換為 zsh。
+
+步驟 6：安裝依賴和其他工具
+安裝常見的依賴工具，這些工具在開發過程中經常使用：
+
+bash
+複製程式碼
+sudo apt install python3-rosdep
+初始化 rosdep，它用來安裝一些 ROS 2 的依賴項：
+
+bash
+複製程式碼
+sudo rosdep init
+rosdep update
+步驟 7：測試安裝
+你可以通過運行以下命令來測試 ROS 2 是否已經安裝成功：
+
+bash
+複製程式碼
+ros2 run demo_nodes_cpp talker
+這將運行一個基本的 ROS 2 節點。如果一切正常，你應該會看到該節點開始發送消息。
+
+選擇性步驟：使用 Colcon 構建自訂工作空間
+如果你需要建立自己的工作空間來開發 ROS 2 項目，你可以使用 colcon 來構建工作空間。安裝 colcon 工具：
+
+bash
+複製程式碼
+sudo apt install python3-colcon-common-extensions
+接下來，你可以創建並構建自己的工作空間。
+
+完整安裝流程總結：
+更新並設置系統：sudo apt update && sudo apt upgrade
+設置 locale：sudo locale-gen en_US en_US.UTF-8
+添加 ROS 軟體源：sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo tee /usr/share/keyrings/ros-archive-keyring.gpg
+安裝 ROS 2：sudo apt install ros-humble-desktop
+設置環境變量：echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+安裝依賴工具：sudo apt install python3-rosdep && sudo rosdep init && rosdep update
+測試 ROS 2：ros2 run demo_nodes_cpp talker
+這樣你就完成了 ROS 2 Humble Hawksbill 的安裝，並且可以開始使用它進行開發！
